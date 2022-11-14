@@ -2,17 +2,9 @@
 
 ## archinstall
 
-*如果是同一个硬盘上和其他系统共存先分好区
-archinstall 的根据扇区计算大小方式猜不透
-现场计算配完最后安装老报错 size 是负的
-所以索性先分好区，让archinstall用现成的
+*如果是同一个硬盘上和其他系统共存先分好区, archinstall 的根据扇区计算大小方式猜不透, 现场计算配完最后安装老报错 size 是负的, 所以索性先分好区，让archinstall用现成的
 
-*在其他系统上习惯 /boot 和 /boot/efi 分离, /boot/efi 做 esp 分区
-archinstall 这样似乎行不通
-好在 esp 分区是可以有多个的，
-不需要和  win 共用一个 esp 分区
-所以有个 /boot 分区就可以了
-
+*在其他系统上习惯 /boot 和 /boot/efi 分离, /boot/efi 做 esp 分区. archinstall 这样似乎行不通, 好在 esp 分区是可以有多个的，不需要和  win 共用一个 esp 分区, 所以有个 /boot 分区就可以了
 
 ``` plaintext
 进去先 `reflector -c China --sort rate --save /etc/pacman.d/mirrorlist`
