@@ -883,16 +883,6 @@ default 会话就可以查到了, 然后从底部的服务标签中删除刚刚�
 
 *查看 `StartupWMClass` 的方式: 命令行输入 `xprop WM_CLASS` 然后点击目标窗口, 修复其它固定到 dock 栏启动后窗口图标和启动图标分离的应用都可以这样先找到 StartupWMClass 后填入 /usr/share/applications 下对应的启动快捷方式中
 
-``` shell
-sudo iwctl
-
-station wlan0 scan
-station wlan0 get-networks
-station wlan0 connect <network_name>
-station wlan0 show
-exit
-```
-
 ### 游戏
 
 #### wine dx 库
