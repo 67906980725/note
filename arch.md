@@ -4,6 +4,8 @@
 
 *如果是同一个硬盘上和其他系统共存先分好区, archinstall 的根据扇区计算大小方式猜不透, 现场计算配完最后安装老报错 size 是负的, 所以索性先分好区，让archinstall用现成的
 
+*启动archinstall报错时再试一次就可以了
+
 *在其他系统上习惯 /boot 和 /boot/efi 分离, /boot/efi 做 esp 分区. archinstall 这样似乎行不通, 好在 esp 分区是可以有多个的，不需要和  win 共用一个 esp 分区, 所以有个 /boot 分区就可以了
 
 ``` plaintext
@@ -13,7 +15,7 @@
 Mirror region: ['China']
 Locale Language: zh_CN.UTF-8
 Locale encoding: UTF-8
-Drive(s): 目 标硬盘
+Drive(s): 目标硬盘
 Disk layout:
     手动分区的情况:
   Assign mount-point for a partition: 至少要有 /boot 和 / 两个分区
@@ -289,7 +291,7 @@ XDG_VIDEOS_DIR=\"$HOME/video\"
 sudo pacman -S base-devel paru python-pip neovim yadm fzf the_silver_searcher bat fd
 
 # firefox
-sudo pacman -S firefox firefox-i18n-zh-cn
+sudo pacman -S firefox 
 firefox https://github.com/gorhill/uBlock
 firefox https://addons.mozilla.org/zh-CN/firefox/addon/vimium-c/
 firefox https://addons.mozilla.org/zh-CN/firefox/addon/traduzir-paginas-web
@@ -491,6 +493,8 @@ source ~/.zshenv
 # neovim
 pip install pynvim
 git clone git@github.com:67906980725/yaocccc_nvim.git -l ~/.config/nvim
+cd ~/.config/nvim
+git remote add github git@github.com:yaocccc/nvim.git
 nvim -c PackerSync # 命令报错的话行sync完再来一次
 
 # qt
@@ -543,7 +547,9 @@ ln -s $HOME/asset/tel/digital/sticker $HOME/.config/icalingua/stickers
 mkdir -p ~/.local/project/i ～/.local/bin
 cd ~/.local/project/i
 git clone git@github.com:67906980725/Icalingua-plus-plus.git
-cd Icalingua-plus-plus/icalingua
+cd Icalingua-plus-plus
+git remote add github git@github.com:Icalingua-plus-plus/Icalingua-plus-plus.git
+cd icalingua
 pnpm install # 有错误就再执行一次
 pnpm ibuild
 
@@ -676,7 +682,7 @@ sed -i '/speedToString(speedUp)/c \ \ \ \ \ \ \ \ \ \ \ \ ioSpeed.set_text(" ↑
 ```
 
 ## README
-
+   
     fcitx5: 
     "经典用户界面" 组件不要禁用, 会变得不幸
     idea 中 fcitx5 光标问题: 
