@@ -299,7 +299,7 @@ firefox https://addons.mozilla.org/zh-CN/firefox/addon/tampermonkey
 firefox https://greasyfork.org/zh-CN/scripts/405130-%E6%96%87%E6%9C%AC%E9%80%89%E4%B8%AD%E5%A4%8D%E5%88%B6
 
 # xorg
-sudo pacman -S xclip flameshot
+sudo pacman -S xclip flameshot simplescreenrecorder
 
 # hardware
 #  bluetooth
@@ -532,7 +532,7 @@ echo "
 Encoding=UTF-8
 Type=Application
 Terminal=false
-#Icon=
+Icon=$HOME/.local/project/i/Icalingua-plus-plus/icalingua/static/icons/512x512.png
 Exec=sh -c \"exec $HOME/.local/bin/Icalingua++.AppImage\"
 Name=icalingua++
 Name[zh_CN]=icalingua++
@@ -554,10 +554,18 @@ pnpm install # 有错误就再执行一次
 pnpm ibuild
 
 # wechat
-#  原生版
+#  原生
 paru -S wechat-uos 
+#  deepin
+#paru -S deepin-wine-wechat
+#/opt/apps/com.qq.weixin.deepin/files/run.sh winecfg
 #paru -S com.qq.weixin.spark 
-paru -S com.qq.weixin.work.deepin
+#  企业微信(xorg)
+paru -S com.qq.weixin.work.deepin-x11
+env WINEPREFIX="$HOME/.deepinwine/Deepin-WXWork" deepin-wine6-stable winecfg # 无效
+#paru -S com.qq.weixin.work.deepin
+#  腾讯会议
+paru -S wemeet-bin
 
 # aria2
 docker run -d \
@@ -689,6 +697,10 @@ sed -i '/speedToString(speedUp)/c \ \ \ \ \ \ \ \ \ \ \ \ ioSpeed.set_text(" ↑
     https://blog.csdn.net/weixin_43840399/article/details/112205858
 
     crontab: `-l` 查看 `-r` 移除 `-u` 用户 `-e` 编辑 `-` 覆盖
+
+    所有录屏软件内录都没声音(pulseaudio):
+    (注意:录屏过程中插拔耳机会导致录屏无声)
+    pactl list | grep "Monitor Source" | awk '{print $3}' | xargs -I {} pacmd set-source-mute {} 0
 
     obs必要设置(放yadm): 
     `右击`-`变换`-`拉伸到全屏`; 
