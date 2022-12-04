@@ -369,6 +369,8 @@ export GLFW_IM_MODULE="ibus"
 ' >> ~/.profile
 
 # gnome
+#  文件管理器
+sudo pacman -S nemo
 #  插件
 sudo pacman -S chrome-gnome-shell
 firefox https://addons.mozilla.org/zh-CN/firefox/addon/gnome-shell-integration/
@@ -639,6 +641,32 @@ sudo groupadd usbfs
 sudo usermod -a -G usbfs $USER
 sudo usermod -a -G vboxusers $USER
 #sudo reboot now
+
+# navicat 无限试用
+paru -S navicat15-premium-cs
+# 到期后
+# rm -r ~/.config/dconf ~/.config/navicat
+
+# navicat  http://www.hushowly.com/articles/2828
+mkdir ~/.local/src
+cd ~/.local/src
+wget http://www.navicat.com.cn/download/direct-download?product=navicat15-premium-cs.AppImage&location=1
+mkdir navicatTemp
+sudo mount -o loop ./navicat15-premium-cs.AppImage ./navicatTemp
+cp -r navicatTemp navicat
+sudo umount navicatTemp
+sudo rm -r navicatTemp
+git clone https://github.com/keystone-engine/keystone.git
+cd keystone
+mkdir build
+cd build
+../make-share.sh
+sudo make install
+sudo ldconfig
+cd ../../
+git clone -b linux --single-branch https://gitee.com/andisolo/navicat-keygen.git
+cd navicat-keygen
+make all # 用的低版本openssl, 搞不定
 ```
 
 ## 装完app后
@@ -701,6 +729,9 @@ sed -i '/speedToString(speedUp)/c \ \ \ \ \ \ \ \ \ \ \ \ ioSpeed.set_text(" ↑
     所有录屏软件内录都没声音(pulseaudio):
     (注意:录屏过程中插拔耳机会导致录屏无声)
     pactl list | grep "Monitor Source" | awk '{print $3}' | xargs -I {} pacmd set-source-mute {} 0
+    快捷键开启/关闭麦克风(pulseaudio):
+    pactl list sources | grep Name | grep input | awk '{print $2}' | xargs -I {} pactl set-source-mute {} toggle
+    音频捕获还是不动弹的话重启下obs就可以了
 
     obs必要设置(放yadm): 
     `右击`-`变换`-`拉伸到全屏`; 
@@ -769,7 +800,7 @@ exit
       快进 5 秒: `→`
       快进 60 秒: `↑`
       切换下一个: `回车`
-
+      窗口置顶: 'T'
       调节字幕: `z`(→), `x`(←)
 
       调节画面延迟: 画面延迟: `ctrl-`  画面提前: `ctrl + shift + =`
