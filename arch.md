@@ -732,6 +732,12 @@ sed -i '/speedToString(speedUp)/c \ \ \ \ \ \ \ \ \ \ \ \ ioSpeed.set_text(" ↑
     快捷键开启/关闭麦克风(pulseaudio):
     pactl list sources | grep Name | grep input | awk '{print $2}' | xargs -I {} pactl set-source-mute {} toggle
     音频捕获还是不动弹的话重启下obs就可以了
+    麦克风降噪(pulseaudio换pipewire):
+    sudo pacman -S pipewire pipewire-pulse pipewire-jack pipewire-alsa
+    sudo pacman -S easyeffects calf lsp-plugins zam-plugins
+    https://blog.ryey.icu/zhs/replace-pulseaudio-with-pipewire.html
+    https://zhuanlan.zhihu.com/p/439611615
+    https://wiki.archlinuxcn.org/wiki/PipeWire
 
     obs必要设置(放yadm): 
     `右击`-`变换`-`拉伸到全屏`; 
