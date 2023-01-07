@@ -357,7 +357,10 @@ paru -S ttf-dejavu ttf-joypixels ttf-material-design-icons wps-office-mui-zh-cn 
 sudo pacman -S fcitx5-im fcitx5-chinese-addons fcitx5-rime fcitx5-qt fcitx5-gtk fcitx5-configtool
 paru -S gnome-shell-extension-kimpanel-git # 重启后去"扩展"应用中开启
 echo '
-# fcitx
+# cn
+export LANG="zh-CN.UTF-8" 
+export LC_ALL="en_US.UTF-8"
+#  fcitx
 export GTK_IM_MODULE="fcitx"
 export QT_IM_MODULE="fcitx"
 export XMODIFIERS="@im=fcitx"
@@ -367,6 +370,9 @@ export XIM_PROGRAM="fcitx"
 export SDL_IM_MODULE="fcitx"
 export GLFW_IM_MODULE="ibus"
 ' >> ~/.profile
+echo '
+. "$HOME/.profile"
+' >> ~/.zshenv
 
 # gnome
 #  文件管理器
@@ -792,6 +798,13 @@ station wlan0 show
 exit
 ```
 
+停用create_ap后如果设置中没有找到wifi适配器, 需要注掉 `/etc/NetworkManager/NetworkManager.conf` 中 keyfile 下的 unmanaged-devices 一行, 添加 `managed=true` 并重启 NetworkManager
+
+``` shell
+sudo sed -i -e '/unmanaged-devices=/ s/^/#/' -e '/unmanaged-devices=/ amanaged=true' /etc/NetworkManager/NetworkManager.conf
+sudo systemctl restart NetworkManager
+```
+
 ### mpv 常用快捷键
 
 - 音量
@@ -929,6 +942,77 @@ exit
 default 会话就可以查到了, 然后从底部的服务标签中删除刚刚那个无效的 console 就可以了
 
 *查看 `StartupWMClass` 的方式: 命令行输入 `xprop WM_CLASS` 然后点击目标窗口, 修复其它固定到 dock 栏启动后窗口图标和启动图标分离的应用都可以这样先找到 StartupWMClass 后填入 /usr/share/applications 下对应的启动快捷方式中
+
+### dwm 
+
+``` shell
+install xf86-input-synaptics rofi feh i3lock xorg-init pcmanfm xss-lock xfce4-power-manager dunst picom pavucontrol acpi
+install xf86-video-amdgpu # amdgpu, 不知道为啥我电脑上只有装了gpu驱动icalingua才能粘贴图片...
+paru -S st # 不知道为啥我电脑上只有装了st才能正确显示标题...
+# 如果之前没设过中文环境
+#sudo sed -i "/#zh_CN.UTF-8 UTF-8/s/^#//" /etc/locale.gen
+#sudo locale-gen 
+#sudo reboot
+
+# dpi 
+echo '
+Xft.dpi: 192
+
+! These might also be useful depending on your monitor and personal preference:
+Xft.autohint: 0
+Xft.lcdfilter:  lcddefault
+Xft.hintstyle:  hintfull
+Xft.hinting: 1
+Xft.antialias: 1
+Xft.rgba: rgb
+' >> ~/.Xresources
+echo '
+xrdb -merge ~/.Xresources
+' >> ~/.xinitrc
+
+# touchpad  https://blog.csdn.net/qq_36390239/article/details/111350382
+echo '
+Section "InputClass"
+        Identifier "MyTouchpad"
+        MatchIsTouchpad "on"
+        Driver "libinput"
+        Option "Tapping" "on"
+	Option "NaturalScrolling" "true"
+	Option "AccelProfile" "adaptive"
+	Option "AccelSpeed" "0.7"
+
+EndSection
+' | sudo tee /etc/X11/xorg.conf.d/30-touchpad.conf
+
+cp /usr/share/fontconfig/conf.avail/10-sub-pixel-rgb.conf ~/.config/fontconfig/conf.d/
+
+# gamma
+xgamma -ggamma 0.65
+xgamma -rgamma 0.75
+xgamma -bgamma 0.6
+
+cd ~/.local/project/i
+git clone git@github.com:67906980725/yaocccc_dwm.git -l dwm
+cd dwm
+git remote add github git@github.com:yaocccc/dwm.git
+cd ../
+git clone git@github.com:67906980725/yaocccc_scripts.git
+cd yaocccc_scripts
+git remote add github git@github.com:yaocccc/scripts.git
+echo "
+export DWM=~/.local/project/i/dwm
+" >> ~/.profile
+echo "
+exec dwm
+" >> ~/.xinitrc
+
+# icons: https://www.nerdfonts.com/cheat-sheet
+
+# idea等用rofi启动
+ln -s /home/v/.local/app/idea-IC/bin/idea.sh $HOME/.local/bin/idea_ic
+ln -s /home/v/.local/app/DataGrip-2020.1.3/bin/datagrip.sh $HOME/.local/bin/datagrip
+ln -s /opt/apps/com.qq.weixin.deepin/files/run.sh ~/.local/bin/wechat
+```
 
 ### 游戏
 
