@@ -532,7 +532,12 @@ nvm use 16.18.1
 npm install -g nrm
 npm install -g pnpm
 
-# icalingua++
+# qq
+sudo paru -S linuxqq
+#  适用小新pro13的缩放
+sudo sed -i '/Exec=/s/$/\ --force-device-scale-factor=2.5/' /usr/share/applications/qq.desktop
+
+# icalingua++(新linuxqq替代了, 这里暂时保留)
 sudo pacman -S fuse2
 #  启动器
 echo "
